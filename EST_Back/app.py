@@ -60,6 +60,33 @@ def update_isopen_state():
 def get_isopen_state():
     return jsonify(isopen), 200
 
+@app.route('/api/comando-actual', methods=['GET'])
+def get_comando_actual():
+    return jsonify(comando_actual), 200
+
+@app.route('/api/comando-actual', methods=['PUT'])
+def update_comando_actual():
+    data = request.json
+    if data and 'comando' in data:
+        comando_actual['comando'] = data['comando']
+        comando_actual['estado'] = 'pending'  # Marcar como pendiente al recibir un nuevo comando
+        return jsonify({"message": "Comando actualizado exitosamente", "comando_actual": comando_actual}), 200
+
+    return jsonify({"error": "No se recibió ningún comando válido"}), 400
+
+@app.route('/api/comando-actual/complete', methods=['PUT'])
+def complete_comando_actual():
+    # Cambiar el estado del comando a completado
+    comando_actual['estado'] = 'completed'
+    return jsonify({"message": "Estado de comando actualizado a completado", "comando_actual": comando_actual}), 200
+
+@app.route('/api/comando-actual/editable', methods=['PUT'])
+def set_comando_editable():
+    # Permitir que el estado del comando sea editable nuevamente
+    comando_actual['estado'] = 'editable'
+    return jsonify({"message": "Estado de comando actual editable"}), 200
+
+
 
 
 if __name__ == '__main__':
