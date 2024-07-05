@@ -13,6 +13,11 @@ from arena import Arena
 from vec4 import Vec4
 from vec2 import Vec2
 import arena_functions
+import pydirectinput
+import pygetwindow as gw
+import win32gui
+import win32con
+import pyautogui
 
 class Game:
     def __init__(self, message_queue: multiprocessing.Queue) -> None:
@@ -55,6 +60,8 @@ class Game:
         Vec4.setup_screen(x_pos, y_pos, width, height)
         Vec2.setup_screen(x_pos, y_pos, width, height)
         self.found_window = True
+        self.game_hwnd = hwnd
+
         try:
             response = requests.put(settings.IS_OPEN, json={"League_state": True})
             if response.status_code == 200:
@@ -63,12 +70,37 @@ class Game:
                 pass
         except Exception as e:
             pass
-        self.game_hwnd = hwnd
 
     def loading_screen(self) -> None:
         self.start_time: float = perf_counter()
+        self.bring_window_to_foreground()
         self.game_loop()
+    
+    def buy_xp(self) -> None:
+        self.bring_window_to_foreground()
+        sleep(0.5)
+        pydirectinput.press("f")
+        chrome_windows = [win for win in gw.getWindowsWithTitle('Google Chrome') if win.title != '']
+    
+      
+    
+    def reroll(self) -> None:
+        self.bring_window_to_foreground()
+        sleep(0.5)
+        pydirectinput.press("d")
+      
 
+    def bring_window_to_foreground(self) -> None:
+           #Trae la ventana del juego al primer plano.
+
+        print(self.game_hwnd)
+        if self.game_hwnd:
+            pyautogui.hotkey('win', 'd')
+            league_window = gw.getWindowsWithTitle('League of Legends (TM) Client')[0]
+            league_window.restore()
+            league_window.activate() 
+            print(league_window)
+            
     def check_failed_to_connect_window(self) -> bool:
         hwnd = win32gui.FindWindow(None, "fallo al conectar")
         if hwnd:
@@ -100,6 +132,17 @@ class Game:
         foreground_hwnd = win32gui.GetForegroundWindow()
         return foreground_hwnd == self.game_hwnd
 
+
+    def complete_command(self) -> None:
+        try:
+            response = requests.put('http://127.0.0.1:5000/api/comando-actual/complete')
+            if response.status_code == 200:
+                print("Comando marcado como completado en la API")
+            else:
+                print(f"Error al marcar el comando como completado. Código de estado: {response.status_code}")
+        except Exception as e:
+            print(f"Error al marcar el comando como completado: {e}")
+            
     def game_loop(self) -> None:
         ran_round: str = None
         while True:
@@ -113,14 +156,24 @@ class Game:
                     continue
 
                 # Analizar comandos de voz
-                try:
-                    response = requests.get('http://127.0.0.1:5000/api/get_voice_command')
-                    if response.status_code == 200:
-                        command_data = response.json()
-                        if command_data.get('command'):
-                            self.process_command(command_data['command'])
-                except Exception as e:
-                    print(f"Error fetching voice command: {e}")
+                response = requests.get('http://127.0.0.1:5000/api/comando-actual')
+                if response.status_code == 200:
+                    command_data = response.json()
+                  
+                    if command_data.get('comando'):
+                        estado = command_data.get('estado')
+                        command = command_data['comando'].strip().lower()  # Limpiar y convertir a minúsculas
+                        if(estado != 'completed' and command!= ""):
+                            if command == 're roll':
+                                self.reroll()
+                            elif command == 'compra xp':
+                                self.buy_xp()
+                            
+                            else:
+                                print(f"Comando desconocido: {command}")
+                            self.complete_command()
+
+                
 
                 # print(arena_functions.get_traits())
                 url = 'http://127.0.0.1:5000/api/get_composition'
@@ -134,7 +187,8 @@ class Game:
               
                 self.selectedStrat = cleanSelectedStratUnits
 
-                
+                # Activar la ventana para traerla al frente
+
                 if self.is_window_in_foreground():
                     self.health = arena_functions.get_health()
                     self.gold = arena_functions.get_gold()
