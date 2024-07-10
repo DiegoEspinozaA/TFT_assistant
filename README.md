@@ -11,7 +11,7 @@ Este proyecto es una herramienta que proporciona información y recomendaciones 
 **BACK**
 1. Ejecuta el archivo `EAPI.exe`.
 2. Ejecuta el archivo `ESTRATEGO.exe`.
-
+3. Accede a https://diegoespinozaa.github.io/TFT_assistant/ para las funciones de ESTRATEGOO.
 
 ## CARACTERÍSTICAS:
 ![main](https://i.imgur.com/j5xi92H.png)
