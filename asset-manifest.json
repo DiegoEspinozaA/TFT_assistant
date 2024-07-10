@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/tft_assistant/static/css/main.5b0917c1.css",
-    "main.js": "/tft_assistant/static/js/main.ae696f10.js",
-    "static/media/Logo.webp": "/tft_assistant/static/media/Logo.8652ab901cc02f86a090.webp",
-    "index.html": "/tft_assistant/index.html",
-    "static/media/gold.webp": "/tft_assistant/static/media/gold.75fd21586aac63261029.webp",
-    "main.5b0917c1.css.map": "/tft_assistant/static/css/main.5b0917c1.css.map",
-    "main.ae696f10.js.map": "/tft_assistant/static/js/main.ae696f10.js.map"
+    "main.css": "/TFT_assistant/static/css/main.5b0917c1.css",
+    "main.js": "/TFT_assistant/static/js/main.d61a7ac6.js",
+    "static/media/Logo.webp": "/TFT_assistant/static/media/Logo.8652ab901cc02f86a090.webp",
+    "index.html": "/TFT_assistant/index.html",
+    "static/media/gold.webp": "/TFT_assistant/static/media/gold.75fd21586aac63261029.webp",
+    "main.5b0917c1.css.map": "/TFT_assistant/static/css/main.5b0917c1.css.map",
+    "main.d61a7ac6.js.map": "/TFT_assistant/static/js/main.d61a7ac6.js.map"
   },
   "entrypoints": [
     "static/css/main.5b0917c1.css",
-    "static/js/main.ae696f10.js"
+    "static/js/main.d61a7ac6.js"
   ]
 }
