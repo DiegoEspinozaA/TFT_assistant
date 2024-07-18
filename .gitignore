@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+EST_Back/dist/Estratego.exe
+EST_Back/dist/Estratego.zip
+/venv
+
+
 # dependencies
 /node_modules
 /.pnp
