@@ -23,12 +23,3 @@ Este proyecto es una herramienta que proporciona información y recomendaciones 
 
 **FRONT**
 1. `npm start` dentro la carpeta contendora del Front.
-
-## CARACTERÍSTICAS:
-![main](https://i.imgur.com/j5xi92H.png)
-- Obtener estado del jugador (Vida / Oro)
-- Obtener parametros de la partida (Ronda / Jugadores)
-- Obtener las mejores composiciones de TFT (API Externa).
-- Analisis de la tienda en tiempo real utilizando ScreenScraper para indicar que campeones comprar.
-- Detección de comandos de voz para realizar acciones del juego (Comprar a <Campeon> / Reroll / Actualizar tienda).
-
